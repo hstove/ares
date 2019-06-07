@@ -9,7 +9,6 @@ export default () => {
     const start = async () => {
       // const loadGame = dynamic(() => import)
       const loadGame = (await import('../lib/game')).default;
-      console.log(loadGame);
       loadGame();
     };
     start();
@@ -19,7 +18,7 @@ export default () => {
       <Box width={1} textAlign="center">
         <Text fontFamily="mono" fontSize={6} textAlign="center">Ares</Text>
         <Text fontFamily="mono" fontSize={4} textAlign="center">A space game</Text>
-        <div id="game" style={{ width: '500px', margin: '0px auto' }} />
+        <div id="game" style={{ width: '800px', margin: '0px auto' }} />
       </Box>
     </Flex>
   );
