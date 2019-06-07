@@ -2,9 +2,9 @@
   "name": "with-styled-components",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "node server.js"
   },
   "dependencies": {
     "dotenv": "^8.0.0",
@@ -24,7 +24,24 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0"
+    "eslint-plugin-react": "^7.13.0",
+    "nodemon": "^1.19.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "./",
+      "../server"
+    ],
+    "ignore": [
+      ".next/*",
+      ".next",
+      "pages/*",
+      "components/*",
+      "styled/*",
+      "models",
+      "scripts"
+    ]
+  }
 }
