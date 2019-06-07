@@ -1,6 +1,7 @@
 import React from 'react';
-import Document from 'next/document';
+import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
+// import { normalize } from 'polished';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -25,5 +26,25 @@ export default class MyDocument extends Document {
     } finally {
       sheet.seal();
     }
+  }
+
+  render() {
+    return (
+      <html lang="en">
+        <Head>
+          {this.props.styleTags}
+          <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700&display=swap" rel="stylesheet" />
+          <script src="/static/p5.min.js" />
+          <script src="/static/p5.sound.js" />
+          <script src="/static/p5.play.js" />
+          {/* <link rel="stylesheet" href="/static/nprogress.css" />
+          <script src="/static/nprogress.js" /> */}
+        </Head>
+        <body className="custom">
+          <Main />
+          <NextScript />
+        </body>
+      </html>
+    );
   }
 }
