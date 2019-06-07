@@ -1,0 +1,30 @@
+{
+  "name": "with-styled-components",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "next": "latest",
+    "radiks": "^0.2.0",
+    "radiks-server": "^0.1.11",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "styled-components": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-styled-components": "^1.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0"
+  },
+  "license": "MIT"
+}
