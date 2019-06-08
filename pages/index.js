@@ -159,17 +159,19 @@ export default class Game extends Component {
               <div id="game" style={{ width: '100%', margin: '0px auto' }} />
             </Box>
             <Box flex={1} pl={4}>
-              {!isAuthed && (
+              {!isAuthed ? (
                 <>
-                  <Text fontFamily="mono" fontSize={3}>
-                    Hello, pilot. Login to use the leaderboard.
+                  <Text fontFamily="mono" fontSize={3} mb={5}>
+                    Hello, pilot. Login with Blockstack to see the leaderboard
+                    and save your high scores.
                   </Text>
-                  <Button fontFamily="mono" my={2} bg="black" onClick={() => this.login()}>
+                  <Button fontFamily="mono" bg="black" onClick={() => this.login()} style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto'}}>
                     Login
                   </Button>
                 </>
+              ) : (
+                <Leaderboard scores={highScores} />
               )}
-              <Leaderboard scores={highScores} />
             </Box>
           </Flex>
           {/* {loading ? (
