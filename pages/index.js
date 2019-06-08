@@ -30,8 +30,6 @@ export default class Game extends Component {
     const newState = {};
     if (userSession.isUserSignedIn()) {
       newState.isAuthed = true;
-    } else {
-      loadGame();
     }
     this.getScores();
     if (userSession.isSignInPending()) {
@@ -51,27 +49,25 @@ export default class Game extends Component {
   async getScores() {
     const { userSession } = this.context;
     let { myScore } = this.state;
+    const isAuthed = userSession.isUserSignedIn();
     const highScores = await HighScore.fetchList({
       sort: '-score',
       version,
-      limit: 10,
+      limit: 50,
     }, { decrypt: false });
-    console.log(userSession.isUserSignedIn());
-    if (userSession.isUserSignedIn()) {
+    if (isAuthed) {
       const _myScore = await HighScore.findOne({
         username: userSession.loadUserData().username,
       });
-      console.log(_myScore);
       myScore = _myScore;
-      // setMyScore(_myScore);
-      // this.setState({
-      //   myScore: _myScore,
-      // });
-      loadGame({
-        handleNewScore: newScore => this.handleNewScore(newScore),
-        highScore: myScore ? myScore.attrs.score : null,
-      });
     }
+    // console.log(myScore.attrs.score);
+    loadGame({
+      handleNewScore: isAuthed ? newScore => this.handleNewScore(newScore) : null,
+      highScore: myScore ? myScore.attrs.score : null,
+      highScores,
+      username: isAuthed ? userSession.loadUserData().username : null,
+    });
     console.log(highScores);
     this.setState(newState => ({
       ...newState,
@@ -83,8 +79,6 @@ export default class Game extends Component {
   async handleNewScore(newScore) {
     let { myScore } = this.state;
     const { userSession } = this.context;
-    console.log('got a new score', newScore);
-    console.log(myScore);
     if (myScore) {
       if (myScore.attrs.score < newScore) {
         myScore.update({
@@ -92,7 +86,6 @@ export default class Game extends Component {
         });
         await myScore.save();
       }
-      console.log('existing score');
     } else if (userSession.isUserSignedIn()) {
       const { username } = userSession.loadUserData();
       const _score = new HighScore({
@@ -127,7 +120,6 @@ export default class Game extends Component {
       existingUsernames[score.attrs.username] = true;
       return true;
     });
-    console.log(newScores.map(s => s.attrs.score));
     this.setState({
       myScore,
       highScores: newScores.slice(0, 10),
@@ -148,15 +140,7 @@ export default class Game extends Component {
 
   scores() {
     const { highScores } = this.state;
-    // const fakeScores = [];
-    // for (let index = 0; index < 10; index += 1) {
-    //   // const element = array[index];
-    //   if (highScores[0]) {
-    //     fakeScores.push(highScores[0]);
-    //   }
-    //   console.log(highScores[0]);
-    // }
-    return highScores.map(score => (
+    return highScores.slice(0, 10).map(score => (
       <Box width={1} key={score._id} mt={1}>
         <Text fontFamily="mono" fontSize={1}>{score.attrs.username}</Text>
         <Text fontFamily="mono" fontSize={2}>{score.attrs.score.toFixed()}</Text>
@@ -166,7 +150,6 @@ export default class Game extends Component {
 
   render() {
     const { isAuthed } = this.state;
-    console.log(this.state);
     return (
       <Flex>
         <Box width={1} textAlign="center" px={4}>

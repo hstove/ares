@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const path = require('path');
 const expressWS = require('express-ws');
+const secure = require('express-force-https');
 require('dotenv').config();
 
 const { setup } = require('radiks-server');
@@ -15,6 +16,7 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 
 app.prepare().then(async () => {
   const server = express();
+  server.use(secure);
   expressWS(server);
 
   const RadiksMiddleware = await setup();

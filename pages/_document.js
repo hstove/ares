@@ -40,7 +40,7 @@ export default class MyDocument extends Document {
           {/* <link rel="stylesheet" href="/static/nprogress.css" />
           <script src="/static/nprogress.js" /> */}
         </Head>
-        <body className="custom">
+        <body>
           <Main />
           <NextScript />
         </body>
