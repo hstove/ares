@@ -30,8 +30,9 @@ export default class Game extends Component {
     const newState = {};
     if (userSession.isUserSignedIn()) {
       newState.isAuthed = true;
+    } else {
+      loadGame();
     }
-    loadGame(newScore => this.handleNewScore(newScore));
     this.getScores();
     if (userSession.isSignInPending()) {
       this.handleAuth();
@@ -52,6 +53,7 @@ export default class Game extends Component {
     let { myScore } = this.state;
     const highScores = await HighScore.fetchList({
       sort: '-score',
+      version,
       limit: 10,
     }, { decrypt: false });
     console.log(userSession.isUserSignedIn());
@@ -65,9 +67,14 @@ export default class Game extends Component {
       // this.setState({
       //   myScore: _myScore,
       // });
+      loadGame({
+        handleNewScore: newScore => this.handleNewScore(newScore),
+        highScore: myScore ? myScore.attrs.score : null,
+      });
     }
     console.log(highScores);
     this.setState(newState => ({
+      ...newState,
       myScore,
       highScores,
     }));
@@ -141,8 +148,16 @@ export default class Game extends Component {
 
   scores() {
     const { highScores } = this.state;
+    // const fakeScores = [];
+    // for (let index = 0; index < 10; index += 1) {
+    //   // const element = array[index];
+    //   if (highScores[0]) {
+    //     fakeScores.push(highScores[0]);
+    //   }
+    //   console.log(highScores[0]);
+    // }
     return highScores.map(score => (
-      <Box width={1} key={score._id} mt={2}>
+      <Box width={1} key={score._id} mt={1}>
         <Text fontFamily="mono" fontSize={1}>{score.attrs.username}</Text>
         <Text fontFamily="mono" fontSize={2}>{score.attrs.score.toFixed()}</Text>
       </Box>
@@ -162,23 +177,22 @@ export default class Game extends Component {
               <div id="game" style={{ width: '100%', margin: '0px auto' }} />
             </Box>
             <Box flex={1} pl={4}>
-              {isAuthed ? (
-                <Flex flexWrap="wrap" flexDirection="column">
-                  <Box width={1}>
-                    <Text fontFamily="mono" fontSize={4}>Leaderboard</Text>
-                  </Box>
-                  {this.scores()}
-                </Flex>
-              ) : (
+              {!isAuthed && (
                 <>
                   <Text fontFamily="mono" fontSize={3}>
                     Hello, pilot. Login to use the leaderboard.
                   </Text>
-                  <Button fontFamily="mono" mt={4} bg="black" onClick={() => this.login()}>
+                  <Button fontFamily="mono" my={2} bg="black" onClick={() => this.login()}>
                     Login
                   </Button>
                 </>
               )}
+              <Flex flexWrap="wrap" flexDirection="column">
+                <Box width={1}>
+                  <Text fontFamily="mono" fontSize={4}>Leaderboard</Text>
+                </Box>
+                {this.scores()}
+              </Flex>
             </Box>
           </Flex>
           {/* {loading ? (
