@@ -11,6 +11,7 @@ import loadGame from '../lib/game';
 import version from '../lib/game/version';
 import HighScore from '../models/high-score';
 import context from '../lib/context';
+import Leaderboard from '../components/leaderboard';
 
 // import loadGame from '../lib/game';
 
@@ -147,13 +148,13 @@ export default class Game extends Component {
   }
 
   render() {
-    const { isAuthed } = this.state;
+    const { isAuthed, highScores } = this.state;
     return (
-      <Flex>
-        <Box width={1} textAlign="center" px={4}>
-          <Text fontFamily="mono" fontSize={6} textAlign="center">Ares</Text>
-          <Text fontFamily="mono" fontSize={4} mt={-3} mb={2} textAlign="center">A space game</Text>
-          <Flex>
+      <Flex width={1}>
+        <Box width={1} textAlign="center" px={0}>
+          {/* <Text fontFamily="mono" fontSize={6} textAlign="center">Ares</Text>
+          <Text fontFamily="mono" fontSize={4} mt={-3} mb={2} textAlign="center">A space game</Text> */}
+          <Flex width={1}>
             <Box width="800px">
               <div id="game" style={{ width: '100%', margin: '0px auto' }} />
             </Box>
@@ -168,12 +169,7 @@ export default class Game extends Component {
                   </Button>
                 </>
               )}
-              <Flex flexWrap="wrap" flexDirection="column">
-                <Box width={1}>
-                  <Text fontFamily="mono" fontSize={4}>Leaderboard</Text>
-                </Box>
-                {this.scores()}
-              </Flex>
+              <Leaderboard scores={highScores} />
             </Box>
           </Flex>
           {/* {loading ? (

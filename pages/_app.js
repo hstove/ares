@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { configure } from 'radiks';
 import { UserSession, AppConfig } from 'blockstack';
 import theme from '../lib/theme';
+import Layout from '../components/layout';
 
 const makeUserSession = () => {
   const appConfig = new AppConfig(['store_write', 'publish_data'], process.env.RADIKS_API_SERVER);
@@ -42,7 +43,9 @@ export default class MyApp extends App {
     return (
       <Container>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ThemeProvider>
       </Container>
     );
