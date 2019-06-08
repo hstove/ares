@@ -61,14 +61,12 @@ export default class Game extends Component {
       });
       myScore = _myScore;
     }
-    // console.log(myScore.attrs.score);
     loadGame({
       handleNewScore: isAuthed ? newScore => this.handleNewScore(newScore) : null,
       highScore: myScore ? myScore.attrs.score : null,
       highScores,
       username: isAuthed ? userSession.loadUserData().username : null,
     });
-    console.log(highScores);
     this.setState(newState => ({
       ...newState,
       myScore,
