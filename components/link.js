@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text } from 'rebass';
 
 const Link = styled.a`
   color: black;
@@ -14,7 +13,7 @@ const Link = styled.a`
 `;
 
 export default ({ children, ...rest }) => (
-  <Link {...rest}>
+  <Link {...rest} target="_blank">
     {children}
   </Link>
 );
