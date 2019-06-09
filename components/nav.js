@@ -26,7 +26,7 @@ export default () => (
       </Box>
       <Box flex={1}>
         <Text fontSize={2} fontFamily="mono" textAlign="right">
-          <NavLink href="/wtf">wtf</NavLink>
+          <NavLink href="/how-to-play">how to play</NavLink>
         </Text>
       </Box>
     </Flex>
